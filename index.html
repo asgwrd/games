@@ -71,6 +71,18 @@
             border-color: #0366d6;
             box-shadow: 0 0 3px rgba(3,102,214,0.3);
         }
+            /* Add to existing styles */
+        .link-item a {
+            transition: color 0.2s ease;
+        }
+    
+        .link-item img {
+            transition: opacity 0.2s ease;
+        }
+        
+        .link-item img:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -85,7 +97,7 @@
     </div>
 
     <script>
-    const BASE_PATH = '/games'; // Base path where your site is hosted
+    const BASE_PATH = '/games'; // Base path for your site
 
     let allLinks = [];
 
@@ -105,13 +117,49 @@
         const linkElement = document.createElement('div');
         linkElement.className = 'link-item';
         
+        // Create anchor element
         const anchor = document.createElement('a');
-        anchor.href = BASE_PATH + link.url; // Prepend base path to the URL
+        const fullUrl = BASE_PATH + link.url;
+        anchor.href = fullUrl;
         anchor.textContent = link.title;
         
-        linkElement.appendChild(anchor);
+        // Create container for link and icon
+        const contentWrapper = document.createElement('div');
+        contentWrapper.style.display = 'flex';
+        contentWrapper.style.alignItems = 'center';
+        contentWrapper.appendChild(anchor);
+        
+        // Add to DOM immediately
+        linkElement.appendChild(contentWrapper);
         container.appendChild(linkElement);
+
+        // Check link validity
+        checkLinkValidity(fullUrl).then(isValid => {
+            if (!isValid) {
+                anchor.style.color = '#ff4444';
+            }
+        });
+
+        // Check for icon
+        const iconUrl = `${fullUrl}icon.png`;
+        const img = new Image();
+        img.style.maxHeight = '24px';
+        img.style.marginLeft = '10px';
+        img.style.opacity = '0.8';
+        
+        img.onload = () => contentWrapper.appendChild(img);
+        img.src = iconUrl;
+
         return linkElement;
+    }
+
+    async function checkLinkValidity(url) {
+        try {
+            const response = await fetch(url, { method: 'HEAD' });
+            return response.ok;
+        } catch (error) {
+            return false;
+        }
     }
 
     function filterLinks() {
@@ -123,6 +171,7 @@
             link.title.toLowerCase().includes(searchTerm)
         ).forEach(link => createLinkElement(link, container));
     }
+</script>
 </script>
 </body>
 </html>
