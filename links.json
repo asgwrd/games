@@ -2,35 +2,35 @@
     "links": [
         {
             "title": "Tag 2 3 4",
-            "url": "https://asgwrd.github.io/tag/"
+            "url": "/g/tag/"
         },
         {
             "title": "Tag 2 3 4 (MODDED)",
-            "url": "https://asgwrd.github.io/modded-tag/"
+            "url": "/g/modded-tag/"
         },
         {
             "title": "Drinking and Driving Simulator",
-            "url": "https://asgwrd.github.io/drinkingdrivingsimulator/"
+            "url": "/g/drinkingdrivingsimulator/"
         },
         {
             "title": "GBA Emulator",
-            "url": "https://asgwrd.github.io/gba/"
+            "url": "/g/gba/"
         },
         {
             "title": "House of Hazards",
-            "url": "https://asgwrd.github.io/HouseOfHazards/"
+            "url": "/g/HouseOfHazards/"
         },
         {
             "title": "Tube Jumpers",
-            "url": "https://asgwrd.github.io/tube-jumpers-ven0m/"
+            "url": "/g/tube-jumpers-ven0m/"
         },
         {
             "title": "Kill Ice Age Baby Adventure",
-            "url": "https://asgwrd.github.io/iceagebabygame/"
+            "url": "/g/iceagebabygame/"
         },
         {
             "title": "Godzilla Daikaiju Battle Royale",
-            "url": "https://asgwrd.github.io/godzillagame/"
+            "url": "/g/godzillagame/"
         }
     ]
 }
