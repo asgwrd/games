@@ -85,31 +85,28 @@
     </div>
 
     <script>
+    const BASE_PATH = '/games'; // Base path where your site is hosted
+
     let allLinks = [];
 
-    // Modified fetch with cache-busting parameter
     fetch('links.json?t=' + new Date().getTime())
         .then(response => response.json())
         .then(data => {
-            // Sort links alphabetically
             allLinks = data.links.sort((a, b) => a.title.localeCompare(b.title));
             const container = document.getElementById('links-container');
             
-            // Create initial links
             allLinks.forEach(link => createLinkElement(link, container));
             
-            // Add search functionality
             document.getElementById('searchInput').addEventListener('input', filterLinks);
         })
         .catch(error => console.error('Error loading links:', error));
 
-    // Rest of the script remains the same
     function createLinkElement(link, container) {
         const linkElement = document.createElement('div');
         linkElement.className = 'link-item';
         
         const anchor = document.createElement('a');
-        anchor.href = link.url;
+        anchor.href = BASE_PATH + link.url; // Prepend base path to the URL
         anchor.textContent = link.title;
         
         linkElement.appendChild(anchor);
@@ -120,11 +117,8 @@
     function filterLinks() {
         const searchTerm = this.value.toLowerCase();
         const container = document.getElementById('links-container');
-        
-        // Clear current links
         container.innerHTML = '';
         
-        // Filter and display matching links
         allLinks.filter(link => 
             link.title.toLowerCase().includes(searchTerm)
         ).forEach(link => createLinkElement(link, container));
