@@ -11,6 +11,18 @@
         {
             "title": "Drinking and Driving Simulator",
             "url": "https://asgwrd.github.io/drinkingdrivingsimulator/"
+        },
+        {
+            "title": "GBA Emulator",
+            "url": "https://asgwrd.github.io/gba/"
+        },
+        {
+            "title": "House of Hazards",
+            "url": "https://asgwrd.github.io/HouseOfHazards/"
+        },
+        {
+            "title": "Tube Jumpers",
+            "url": "https://asgwrd.github.io/tube-jumpers-ven0m/"
         }
     ]
 }
