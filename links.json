@@ -35,6 +35,14 @@
         {
             "title": "ISLANDER",
             "url" : "/g/islander/"
+        },
+        {
+            "title": "PICOHOT",
+            "url" : "/g/picohot/"
+        },
+        {
+            "title": "Backrooms",
+            "url" : "/g/backrooms/"
         }
     ]
 }
