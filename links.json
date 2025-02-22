@@ -47,6 +47,10 @@
         {
             "title": "Polytrack",
             "url" : "/g/polytrack/"
+        },
+        {
+            "title": "Portal: Flash Version",
+            "url" : "/g/portal-flash/"
         }
     ]
 }
