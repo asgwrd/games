@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Collection</title>
+    <title>Link Collection</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,35 +50,81 @@
             color: #333;
             font-size: 16px;
         }
+
+        /* Search bar styling */
+        .search-bar {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #0366d6;
+            box-shadow: 0 0 3px rgba(3,102,214,0.3);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>random games</h1>
-        <p>You may need to reload the page for the game to work for some reason</p>
+        <h1>My Links</h1>
+        <p>Here are some useful links:</p>
+        
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" placeholder="Search links..." class="search-bar">
+        
         <div id="links-container"></div>
+        <p>More links coming soon!</p>
     </div>
 
     <script>
+        let allLinks = [];
+
         // Fetch and display links from JSON file
         fetch('links.json')
             .then(response => response.json())
             .then(data => {
+                // Sort links alphabetically
+                allLinks = data.links.sort((a, b) => a.title.localeCompare(b.title));
                 const container = document.getElementById('links-container');
                 
-                data.links.forEach(link => {
-                    const linkElement = document.createElement('div');
-                    linkElement.className = 'link-item';
-                    
-                    const anchor = document.createElement('a');
-                    anchor.href = link.url;
-                    anchor.textContent = link.title;
-                    
-                    linkElement.appendChild(anchor);
-                    container.appendChild(linkElement);
-                });
+                // Create initial links
+                allLinks.forEach(link => createLinkElement(link, container));
+                
+                // Add search functionality
+                document.getElementById('searchInput').addEventListener('input', filterLinks);
             })
             .catch(error => console.error('Error loading links:', error));
+
+        function createLinkElement(link, container) {
+            const linkElement = document.createElement('div');
+            linkElement.className = 'link-item';
+            
+            const anchor = document.createElement('a');
+            anchor.href = link.url;
+            anchor.textContent = link.title;
+            
+            linkElement.appendChild(anchor);
+            container.appendChild(linkElement);
+            return linkElement;
+        }
+
+        function filterLinks() {
+            const searchTerm = this.value.toLowerCase();
+            const container = document.getElementById('links-container');
+            
+            // Clear current links
+            container.innerHTML = '';
+            
+            // Filter and display matching links
+            allLinks.filter(link => 
+                link.title.toLowerCase().includes(searchTerm)
+            ).forEach(link => createLinkElement(link, container));
+        }
     </script>
 </body>
 </html>
