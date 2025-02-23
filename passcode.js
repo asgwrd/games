@@ -41,13 +41,13 @@
     }
 
     // Check if the user is already authenticated via cookie
-    if (getCookie('auth') === 'true') {
+    if (getCookie('auth') === 'asgwrdisthebest69420') {
         removeOverlay();
     } else {
         // Prompt for passcode
         let passcode = prompt('Enter the passcode:');
         if (passcode === 'asgwrdisthebest69420') {  // Replace '1234' with your desired passcode
-            setCookie('auth', 'true');
+            setCookie('auth', passcode);
             removeOverlay();
         } else {
             alert('Incorrect passcode');
