@@ -29,7 +29,7 @@
 
     // Helper function to set a cookie
     function setCookie(name, value) {
-        document.cookie = `${name}=${value}; path=/`;
+        document.cookie = `${name}=${value}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
     }
 
     // Helper function to remove the overlay
