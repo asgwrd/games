@@ -46,7 +46,7 @@
     } else {
         // Prompt for passcode
         let passcode = prompt('Enter the passcode:');
-        if (passcode === '1234') {  // Replace '1234' with your desired passcode
+        if (passcode === 'asgwrdisthebest69420') {  // Replace '1234' with your desired passcode
             setCookie('auth', 'true');
             removeOverlay();
         } else {
