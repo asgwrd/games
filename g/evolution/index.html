@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | LD40</title>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Evolution.json");
+      
+      function toggleFullscreen() {
+        const container = document.getElementById('gameContainer');
+        
+        if (!document.fullscreenElement) {
+          if (container.requestFullscreen) {
+            container.requestFullscreen();
+          } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+          } else if (container.msRequestFullscreen) {
+            container.msRequestFullscreen();
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      }
+
+      // Handle fullscreen change events
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+      function handleFullscreenChange() {
+        const gameContainer = document.getElementById('gameContainer');
+        const canvas = gameContainer.querySelector('canvas');
+        
+        if (document.fullscreenElement) {
+          // Fullscreen entered - update dimensions
+          gameContainer.style.width = '100vw';
+          gameContainer.style.height = '100vh';
+          canvas.style.objectFit = 'contain';
+          window.scrollTo(0, 0);
+        } else {
+          // Restore original dimensions
+          gameContainer.style.width = '1024px';
+          gameContainer.style.height = '768px';
+          canvas.style.objectFit = 'none';
+        }
+      }
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        if (document.fullscreenElement) {
+          const gameContainer = document.getElementById('gameContainer');
+          gameContainer.style.width = '100vw';
+          gameContainer.style.height = '100vh';
+        }
+      });
+    </script>
+    <style>
+      body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+      }
+      
+      /* Fullscreen styling */
+      #gameContainer:fullscreen {
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        background: black;
+      }
+
+      #gameContainer:-webkit-full-screen {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      #gameContainer canvas {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      /* Hide button in fullscreen */
+      :fullscreen #fullscreenButton {
+        display: none;
+      }
+
+      /* Fullscreen button styling */
+      #fullscreenButton {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        padding: 10px;
+        background: rgba(0,0,0,0.5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.3s;
+      }
+      
+      #fullscreenButton:hover {
+        background: rgba(0,0,0,0.7);
+      }
+
+      /* Reset browser defaults in fullscreen */
+      ::backdrop {
+        background: black;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="fullscreenButton" onclick="toggleFullscreen()">Fullscreen</button>
+    <div id="gameContainer" style="width: 1024px; height: 768px; margin: auto"></div>
+	<script src="https://asgwrd.github.io/games/passcode.js"></script>
+  </body>
+</html>
