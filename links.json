@@ -91,6 +91,14 @@
         {
             "title": "Big Tower Tiny Square",
             "url": "/g/bigtower/"
+        },
+        {
+            "title": "Endlesswar",
+            "url": "/g/endlesswar/"
+        },
+        {
+            "title": "Big FLAPPY Tower Tiny Square",
+            "url": "/g/bigflappytower/"
         }
     ]
 }
