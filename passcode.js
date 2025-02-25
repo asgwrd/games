@@ -41,12 +41,12 @@
     }
 
     // Check if the user is already authenticated via cookie
-    if (getCookie('auth') === 'asgwrdisthebest69420') {
+    if (getCookie('auth') === 'hawktuahaoeneedstobenerfed69420') {
         removeOverlay();
     } else {
         // Prompt for passcode
         let passcode = prompt('Enter the passcode:');
-        if (passcode === 'asgwrdisthebest69420') {  // Replace '1234' with your desired passcode
+        if (passcode === 'hawktuahaoeneedstobenerfed69420') {  // Replace '1234' with your desired passcode
             setCookie('auth', passcode);
             removeOverlay();
         } else {
