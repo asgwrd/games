@@ -356,7 +356,6 @@ window.DOMElementHandler = class extends self.DOMHandler {
 						} : this._localFileBlobs.hasOwnProperty(k) && (d.engineScripts[l] = URL.createObjectURL(this._localFileBlobs[k]))
 				}
 			}
-			d.baseUrl ? this._baseUrl = d.baseUrl : (k = location.origin, this._baseUrl = document.getElementsByTagName('base')[0].href, k = this._baseUrl.lastIndexOf("/"), -1 !== k && (this._baseUrl = this._baseUrl.substr(0, k + 1)));
 			d.workerScripts && (this._workerScriptURLs = d.workerScripts);
 			k = new MessageChannel;
 			this._messageChannelPort = k.port1;
