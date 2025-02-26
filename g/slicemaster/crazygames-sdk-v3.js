@@ -7929,7 +7929,7 @@
                                         case 5:
                                             return u.trys.push([5, 7, , 8]),
                                             [4, (0,
-                                            l.loadAdsIfNeeded)(a.rafvertizingUrl, this.sdk)];
+                                            l.loadAdsIfNeeded)(this.sdk)];
                                         case 6:
                                             return u.sent(),
                                             [3, 8];
