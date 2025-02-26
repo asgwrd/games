@@ -1,186 +1,321 @@
 "use strict";
 (globalThis.webpackChunkcrazygames_gameframe = globalThis.webpackChunkcrazygames_gameframe || []).push([
-	[6551], {
-		86551: (e, t, s) => {
-			s.r(t), s.d(t, {
-				default: () => x
-			});
-			var n = s(9950),
-				r = s(5424),
-				a = s(37731),
-				i = s(22063),
-				u = s(23379),
-				o = s(57429),
-				l = s(64170),
-				c = s(7967),
-				d = s(52993),
-				g = s(25596),
-				y = s(14953),
-				w = s(60646),
-				h = s(77217),
-				f = s(47638),
-				m = s(46398),
-				p = s(1652),
-				b = s(41160),
-				v = s(44414);
-			const M = new l.A("unity54ready"),
-				x = () => {
-					const {
-						isGameDisabled: e
-					} = (0, n.useContext)(o.P), {
-						isFullscreen: t,
-						requestFullscreen: s
-					} = (0, n.useContext)(g.Z), {
-						onLoadFinished: l
-					} = (0, n.useContext)(c.h), [x, E] = (0, n.useState)("loading"), L = n.useRef(), k = n.useRef(null);
-					null === k.current && (k.current = new u.Ay), (0, n.useEffect)((() => {
-						if (e) return void(L.current && (L.current.remove(), L.current = null));
-						const t = (0, r.lZ)(),
-							s = `${(0,m.y)("unity54")}/${t.gameSlug}.html${window.location.search}`,
-							n = (0, d.UR)(s);
-						L.current = n, (0, p.sx)((() => {
-							M.sendMessage({
-								type: "focusGame"
-							})
-						}));
-						(0, a.yu)().appendChild(n)
-					}), [e]), (0, n.useEffect)((() => {
-						"loaded" === x && (t ? M.sendMessage({
-							type: "unity54RequestFullScreen"
-						}) : M.sendMessage({
-							type: "unity54DisableFullScreen"
-						}))
-					}), [t, x]), (0, n.useEffect)((() => {
-						const e = (0, r.lZ)().loaderOptions;
-						(async () => {
-							if (await (async () => (0, d.MN)() ? null : "unity-unavailable")()) return f.vF.error("Unity WebGL is not available on this browser"), void E("error");
-							const t = {
-								gameLink: (0, r.lZ)().gameLink,
-								userInfo: (0, b.yV)()
-							};
-							M.sendMessage({
-								type: "unity54config",
-								loaderOptions: e,
-								oldSdkInitObject: t
-							}), k.current.trackLoadStarted()
-						})()
-					}), []), (0, n.useEffect)((() => {
-						function e(e) {
-							switch (e.data.type) {
-								case "loadFinished":
-									k.current.trackLoadFinished(), "REQUIRED" !== (0, r.lZ)().fullscreen || (0, y.BV)() || t ? (E("loaded"), l()) : E("fullscreen");
-									break;
-								case "unityMemoryUsage":
-									w.A.getInstance().sendEvent(e.data.usageData)
-							}
-						}
-						return window.addEventListener("message", e), () => {
-							window.removeEventListener("message", e)
-						}
-					}), [l, t]);
-					const A = async () => {
-						await s(), E("loaded"), l()
-					};
-					switch (x) {
-						case "loading":
-							return (0, v.jsx)(i.A, {
-								showProgress: !1
-							});
-						case "error":
-							return (0, v.jsx)(h.A, {
-								warning: "unity-unavailable"
-							});
-						case "fullscreen":
-							return (0, v.jsx)(h.A, {
-								warning: "force-fullscreen",
-								close: A
-							});
-						default:
-							return null
-					}
-				}
-		},
-		52993: (e, t, s) => {
-			s.d(t, {
-				MN: () => i,
-				UR: () => u,
-				ap: () => a
-			});
-			var n = s(14953),
-				r = s(48591);
+    [6551], {
+        86551: (exports, modules, require) => {
+            require.r(exports);
+            require.d(exports, {
+                default: () => UnityLoaderComponent
+            });
 
-			function a() {
-				if ((0, n.lT)()) return !1;
-				try {
-					const e = document.createElement("canvas");
-					return "WebGLRenderingContext" in window && !!e.getContext("webgl2")
-				} catch (e) {
-					return !1
-				}
-			}
+            // Import dependencies
+            const React = require(9950),
+                { useGameContext: useGameContext } = require(5424),
+                { getContainer: getContainer } = require(37731),
+                LoadingSpinner = require(22063),
+                UnityMessenger = require(23379),
+                { GameContext: GameContext } = require(57429),
+                { WindowMessenger: WindowMessenger } = require(64170),
+                { LoadingContext: LoadingContext } = require(7967),
+                { createUnityIframe: createUnityIframe, isWebGLSupported: isWebGLSupported } = require(52993),
+                { FullscreenContext: FullscreenContext } = require(25596),
+                { isMobile: isMobile } = require(14953),
+                Analytics = require(60646),
+                FullscreenWarning = require(77217),
+                { showError: showError } = require(47638),
+                { getUnityBuildUrl: getUnityBuildUrl } = require(46398),
+                { defer: defer } = require(1652),
+                { getUserInfo: getUserInfo } = require(41160),
+                { jsx: jsx } = require(44414);
 
-			function i() {
-				if ((0, n.lT)()) return !1;
-				try {
-					const e = document.createElement("canvas");
-					return "WebGLRenderingContext" in window && (!!e.getContext("webgl") || !!e.getContext("experimental-webgl"))
-				} catch (e) {
-					return !1
-				}
-			}
+            // Constants
+            const UNITY_READY_EVENT = new WindowMessenger("unity54ready");
 
-			function u(e) {
-				const t = document.createElement("iframe");
-				return t.src = e, t.style.border = "0", t.style.backgroundColor = "#fff", t.style.width = "10px", t.style.height = "10px", t.style.minWidth = "100%", t.style.minHeight = "100%", t.setAttribute("allow", `accelerometer; gyroscope; gamepad; autoplay; payment; fullscreen; microphone; clipboard-read; clipboard-write 'self' ${e}`), t.setAttribute("webkitallowfullscreen", "true"), t.setAttribute("mozallowfullscreen", "true"), t.setAttribute("msallowfullscreen", "true"), t.setAttribute("allowfullscreen", "true"), t.setAttribute("sandbox", ""), t.sandbox.add(...r.n), t
-			}
-		},
-		64170: (e, t, s) => {
-			s.d(t, {
-				A: () => r
-			});
-			var n = s(37731);
-			const r = class {
-				constructor(e) {
-					this.readyMessage = e, this.windowSource = null, this.queuedMessages = [], this.messageListeners = [], this.sendMessage = e => {
-						this.windowSource ? this.windowSource.postMessage(e, "*") : this.queuedMessages.push(e)
-					}, this.receiveMessage = async e => {
-						const t = (0, n.v6)();
-						this.messageListeners.push({
-							promise: t,
-							messageType: e
-						});
-						return await t.promise
-					}, this.onMessage = e => {
-						e.data.type === this.readyMessage && (this.windowSource = e.source, this.queuedMessages.forEach((e => {
-							var t;
-							return null === (t = this.windowSource) || void 0 === t ? void 0 : t.postMessage(e, "*")
-						}))), this.messageListeners.forEach((t => {
-							t.messageType === e.data.type && (e.data.isSuccessful ? t.promise.resolve(e.data.result) : t.promise.reject(new Error(`WindowMessenger:${e.data.type} failed`)))
-						}))
-					}, window.addEventListener("message", this.onMessage)
-				}
-			}
-		},
-		46398: (e, t, s) => {
-			s.d(t, {
-				y: () => i
-			});
-			var n = s(48591),
-				r = s(5424);
-			const a = window.location.href.includes("localIframeWorker=true");
+            const UnityLoaderComponent = () => {
+                // Context hooks
+                const { isGameDisabled } = React.useContext(GameContext);
+                const { isFullscreen, requestFullscreen } = React.useContext(FullscreenContext);
+                const { onLoadFinished } = React.useContext(LoadingContext);
+                
+                // State management
+                const [status, setStatus] = React.useState("loading");
+                const loaderRef = React.useRef();
+                const loadTrackerRef = React.useRef(null);
+                
+                // Initialize load tracker
+                if (!loadTrackerRef.current) {
+                    loadTrackerRef.current = new UnityMessenger();
+                }
 
-			function i(e) {
-				const t = (0, r.lZ)(),
-					s = a ? "http://localhost:5014/local" : `https://${t.gameSlug}.${n.y}`;
-				switch (e) {
-					case "unity2020":
-						return `https://asgwrd.github.io/games/g/superhot/index2.html`;
-					case "unity56":
-						return `https://asgwrd.github.io/games/g/superhot/index2.html`;
-					case "unity54":
-						return `https://asgwrd.github.io/games/g/superhot/index2.html`
-				}
-			}
-		}
-	}
+                // Effect: Manage Unity iframe lifecycle
+                React.useEffect(() => {
+                    if (isGameDisabled) {
+                        if (loaderRef.current) {
+                            loaderRef.current.remove();
+                            loaderRef.current = null;
+                        }
+                        return;
+                    }
+
+                    const gameConfig = useGameContext();
+                    const unityUrl = `${getUnityBuildUrl("unity54")}/${gameConfig.gameSlug}.html${window.location.search}`;
+                    const unityIframe = createUnityIframe(unityUrl);
+                    
+                    loaderRef.current = unityIframe;
+                    
+                    // Focus game when mounted
+                    defer(() => {
+                        UNITY_READY_EVENT.sendMessage({ type: "focusGame" });
+                    });
+
+                    getContainer().appendChild(unityIframe);
+                }, [isGameDisabled]);
+
+                // Effect: Handle fullscreen changes
+                React.useEffect(() => {
+                    if (status === "loaded") {
+                        const messageType = isFullscreen 
+                            ? "unity54RequestFullScreen" 
+                            : "unity54DisableFullScreen";
+                        UNITY_READY_EVENT.sendMessage({ type: messageType });
+                    }
+                }, [isFullscreen, status]);
+
+                // Effect: Initialize Unity configuration
+                React.useEffect(() => {
+                    const initializeUnity = async () => {
+                        if (!(await isWebGLSupported())) {
+                            showError("Unity WebGL is not available on this browser");
+                            setStatus("error");
+                            return;
+                        }
+
+                        const gameConfig = useGameContext();
+                        const initializationData = {
+                            gameLink: gameConfig.gameLink,
+                            userInfo: getUserInfo()
+                        };
+
+                        UNITY_READY_EVENT.sendMessage({
+                            type: "unity54config",
+                            loaderOptions: gameConfig.loaderOptions,
+                            oldSdkInitObject: initializationData
+                        });
+
+                        loadTrackerRef.current.trackLoadStarted();
+                    };
+
+                    initializeUnity();
+                }, []);
+
+                // Effect: Handle Unity messages
+                React.useEffect(() => {
+                    const handleUnityMessages = (event) => {
+                        switch (event.data.type) {
+                            case "loadFinished":
+                                loadTrackerRef.current.trackLoadFinished();
+                                const shouldForceFullscreen = 
+                                    useGameContext().fullscreen === "REQUIRED" &&
+                                    !isMobile() &&
+                                    !isFullscreen;
+                                
+                                if (!shouldForceFullscreen) {
+                                    setStatus("loaded");
+                                    onLoadFinished();
+                                } else {
+                                    setStatus("fullscreen");
+                                }
+                                break;
+                            
+                            case "unityMemoryUsage":
+                                Analytics.getInstance().sendEvent(event.data.usageData);
+                                break;
+                        }
+                    };
+
+                    window.addEventListener("message", handleUnityMessages);
+                    return () => window.removeEventListener("message", handleUnityMessages);
+                }, [onLoadFinished, isFullscreen]);
+
+                // Handle fullscreen activation
+                const handleFullscreenRequest = async () => {
+                    await requestFullscreen();
+                    setStatus("loaded");
+                    onLoadFinished();
+                };
+
+                // Render state-dependent UI
+                switch (status) {
+                    case "loading":
+                        return jsx(LoadingSpinner, { showProgress: false });
+                    
+                    case "error":
+                        return jsx(FullscreenWarning, { warning: "unity-unavailable" });
+                    
+                    case "fullscreen":
+                        return jsx(FullscreenWarning, { 
+                            warning: "force-fullscreen",
+                            close: handleFullscreenRequest
+                        });
+                    
+                    default:
+                        return null;
+                }
+            };
+        },
+        
+        52993: (exports, modules) => {
+            // WebGL support checks
+            modules.d(exports, {
+                MN: () => isWebGLSupported,
+                UR: () => createUnityIframe,
+                ap: () => isWebGL2Supported
+            });
+
+            const { isMobile: isMobile } = require(14953),
+                { SANDBOX_PERMISSIONS: SANDBOX_PERMISSIONS } = require(48591);
+
+            function isWebGL2Supported() {
+                if (isMobile()) return false;
+                try {
+                    const canvas = document.createElement("canvas");
+                    return !!window.WebGL2RenderingContext && !!canvas.getContext("webgl2");
+                } catch {
+                    return false;
+                }
+            }
+
+            function isWebGLSupported() {
+                if (isMobile()) return false;
+                try {
+                    const canvas = document.createElement("canvas");
+                    return !!window.WebGLRenderingContext && (
+                        !!canvas.getContext("webgl") || 
+                        !!canvas.getContext("experimental-webgl")
+                    );
+                } catch {
+                    return false;
+                }
+            }
+
+            function createUnityIframe(src) {
+                const iframe = document.createElement("iframe");
+                iframe.src = src;
+                iframe.style.border = "0";
+                iframe.style.backgroundColor = "#fff";
+                iframe.style.width = "10px";
+                iframe.style.height = "10px";
+                iframe.style.minWidth = "100%";
+                iframe.style.minHeight = "100%";
+                
+                // Security settings
+                iframe.setAttribute("allow", `
+                    accelerometer; 
+                    gyroscope; 
+                    gamepad; 
+                    autoplay; 
+                    payment; 
+                    fullscreen; 
+                    microphone; 
+                    clipboard-read; 
+                    clipboard-write 'self' ${src}
+                `);
+                
+                iframe.setAttribute("sandbox", "");
+                iframe.sandbox.add(...SANDBOX_PERMISSIONS);
+                
+                return iframe;
+            }
+        },
+
+        64170: (exports, modules) => {
+            // Window message handler
+            modules.d(exports, {
+                A: () => WindowMessenger
+            });
+
+            const { createDeferred: createDeferred } = require(37731);
+
+            class WindowMessenger {
+                constructor(readyMessageType) {
+                    this.readyMessageType = readyMessageType;
+                    this.messageQueue = [];
+                    this.pendingRequests = [];
+                    this.sourceWindow = null;
+
+                    window.addEventListener("message", this.handleIncomingMessages);
+                }
+
+                sendMessage(message) {
+                    if (this.sourceWindow) {
+                        this.sourceWindow.postMessage(message, "*");
+                    } else {
+                        this.messageQueue.push(message);
+                    }
+                }
+
+                async receiveMessage(messageType) {
+                    const deferred = createDeferred();
+                    this.pendingRequests.push({
+                        promise: deferred,
+                        messageType
+                    });
+                    return deferred.promise;
+                }
+
+                handleIncomingMessages = (event) => {
+                    if (event.data.type === this.readyMessageType) {
+                        this.sourceWindow = event.source;
+                        this.flushMessageQueue();
+                    }
+
+                    this.processPendingRequests(event);
+                };
+
+                flushMessageQueue() {
+                    while (this.messageQueue.length > 0) {
+                        const message = this.messageQueue.shift();
+                        this.sourceWindow.postMessage(message, "*");
+                    }
+                }
+
+                processPendingRequests(event) {
+                    this.pendingRequests.forEach((request, index) => {
+                        if (request.messageType === event.data.type) {
+                            event.data.isSuccessful 
+                                ? request.promise.resolve(event.data.result)
+                                : request.promise.reject(
+                                    new Error(`WindowMessenger:${event.data.type} failed`)
+                                );
+                            this.pendingRequests.splice(index, 1);
+                        }
+                    });
+                }
+            }
+        },
+
+        46398: (exports, modules) => {
+            // URL builder for Unity builds
+            modules.d(exports, {
+                y: () => getUnityBuildUrl
+            });
+
+            const { DOMAINS: DOMAINS } = require(48591),
+                { useGameContext: useGameContext } = require(5424);
+
+            const isLocalDevelopment = window.location.href.includes("localIframeWorker=true");
+
+            function getUnityBuildUrl(buildType) {
+                const { gameSlug } = useGameContext();
+                const baseUrl = isLocalDevelopment
+                    ? "http://localhost:5014/local"
+                    : `https://${gameSlug}.${DOMAINS.unity}`;
+
+                return {
+                    unity2020: `${baseUrl}/unity/unity2020`,
+                    unity56: `${baseUrl}/unity/unity56`,
+                    unity54: `${baseUrl}/unity/unity54`
+                }[buildType];
+            }
+        }
+    }
 ]);
