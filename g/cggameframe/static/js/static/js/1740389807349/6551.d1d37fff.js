@@ -171,14 +171,14 @@
 
 			function i(e) {
 				const t = (0, r.lZ)(),
-					s = a ? "http://localhost:5014/local" : `https://asgwrd.github.io/games/g/superhot/index2.html`;
+					s = a ? "http://localhost:5014/local" : `https://${t.gameSlug}.${n.y}`;
 				switch (e) {
 					case "unity2020":
-						return `${s}/unity/unity2020`;
+						return `https://asgwrd.github.io/games/g/superhot/index2.html`;
 					case "unity56":
-						return `${s}/unity/unity56`;
+						return `https://asgwrd.github.io/games/g/superhot/index2.html`;
 					case "unity54":
-						return `${s}/unity/unity54`
+						return `https://asgwrd.github.io/games/g/superhot/index2.html`
 				}
 			}
 		}
