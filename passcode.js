@@ -1,5 +1,5 @@
 (function() {
-    // Create the overlay element for "Access Denied" message
+    // Create the overlay element
     let overlay = document.createElement('div');
     overlay.id = 'auth-overlay';
     overlay.style.position = 'fixed';
@@ -15,43 +15,92 @@
     overlay.innerHTML = '<div style="text-align: center;"><h2>Access Denied</h2><p>Please refresh the page to enter the passcode.</p></div>';
     document.body.appendChild(overlay);
 
-    // Helper function to get a cookie by name
+    // Cookie functions
     function getCookie(name) {
         let cookies = document.cookie.split(';');
         for (let cookie of cookies) {
             let [cookieName, cookieValue] = cookie.split('=');
-            if (cookieName.trim() === name) {
-                return cookieValue;
-            }
+            if (cookieName.trim() === name) return decodeURIComponent(cookieValue);
         }
         return null;
     }
 
-    // Helper function to set a cookie
     function setCookie(name, value) {
-        document.cookie = `${name}=${value}; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+        document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=2147483647`;
     }
 
-    // Helper function to remove the overlay
-    function removeOverlay() {
-        let overlay = document.getElementById('auth-overlay');
-        if (overlay) {
-            overlay.remove();
+    function deleteCookie(name) {
+        document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    }
+
+    // Auth check logic
+    async function checkAuth() {
+        const authCookie = getCookie('auth');
+        const validPass = 'hawktuahaoeneedstobenerfed69420';
+
+        if (authCookie) {
+            const [savedPass, savedUid] = authCookie.split(':');
+            if (savedPass === validPass) {
+                try {
+                    const isBanned = await checkUidStatus(savedUid);
+                    if (isBanned) {
+                        deleteCookie('auth');
+                        return; // Keep overlay visible
+                    }
+                    removeOverlay();
+                    return;
+                } catch (error) {
+                    // Server unavailable - allow access
+                    removeOverlay();
+                    return;
+                }
+            }
         }
-    }
 
-    // Check if the user is already authenticated via cookie
-    if (getCookie('auth') === 'hawktuahaoeneedstobenerfed69420') {
-        removeOverlay();
-    } else {
-        // Prompt for passcode
-        let passcode = prompt('Enter the passcode:');
-        if (passcode === 'hawktuahaoeneedstobenerfed69420') {  // Replace '1234' with your desired passcode
-            setCookie('auth', passcode);
+        // No valid cookie - prompt for password
+        const passcode = prompt('Enter the passcode:');
+        if (passcode === validPass) {
+            const uid = generateUid();
+            
+            try {
+                const isBanned = await checkUidStatus(uid);
+                if (isBanned) {
+                    alert('System error: Please try again');
+                    return;
+                }
+            } catch (error) {
+                // Server unavailable - proceed anyway
+            }
+            
+            setCookie('auth', `${passcode}:${uid}`);
             removeOverlay();
         } else {
             alert('Incorrect passcode');
-            // Overlay remains
         }
     }
+
+    async function checkUidStatus(uid) {
+        try {
+            const response = await fetch(`http://66.24.73.252:5000/check_uid?uid=${uid}`, {
+                signal: AbortSignal.timeout(3000)
+            });
+            if (!response.ok) throw new Error('Server error');
+            const data = await response.json();
+            return data.banned;
+        } catch (error) {
+            console.error('UID check failed:', error);
+            throw error; // Throw error to be handled upstream
+        }
+    }
+
+    function generateUid() {
+        return Math.floor(100 + Math.random() * 900); // 100-999
+    }
+
+    function removeOverlay() {
+        const overlay = document.getElementById('auth-overlay');
+        if (overlay) overlay.remove();
+    }
+
+    checkAuth();
 })();
