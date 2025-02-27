@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godzilla Flash Player</title>
+    <!-- Include Ruffle -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+</head>
+<body>
+  <h1>RIGHT-CLICK AND SELECT FULLSCREEN FOR FULLSCREEN</h1>
+    <div style="text-align: center;">
+        <!-- Ruffle container -->
+        <div id="ruffle-container"></div>
+    </div>
+
+    <script>
+        // Initialize Ruffle
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.addEventListener("DOMContentLoaded", () => {
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            const container = document.getElementById("ruffle-container");
+            container.appendChild(player);
+            
+            // Load the SWF file
+            player.load("Godzilla.swf");
+        });
+    </script>
+	<script src="https://asgwrd.github.io/games/passcode.js"></script>
+</body>
+</html>
