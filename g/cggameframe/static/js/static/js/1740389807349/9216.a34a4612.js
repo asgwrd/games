@@ -45,7 +45,7 @@
 					null === $.current && ($.current = new b.A);
 					const H = (0, n.lZ)(),
 						I = H.loaderOptions,
-						T = `https://asgwrd.github.io/games/g/sandboxcity/index2.html`;
+						T = `https://asgwrd.github.io/games/g/blockblast/index2.html`;
 					(0, r.useEffect)((() => {
 						if (e) return void(Z.current && (Z.current.remove(), Z.current = null));
 						const t = (0, g.UR)(T);
