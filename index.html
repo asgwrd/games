@@ -95,89 +95,10 @@
         
         <!-- Search Bar -->
         <input type="text" id="searchInput" placeholder="Search links..." class="search-bar">
-		
-		<p><b>Most games do not have a loading bar but still load if they arent red they will load eventually.</b></p>
-        <p style="color: red; font-size: 50px;"><b>In order to update games manually refresh the page!</b></p>
+        <p style="color: red; font-size: 50px;"><b>WEBSITE HAS MOVE GO TO "asgwrd.github.io"</b></p>
         
         <div id="links-container"></div>
     </div>
-
-    <script>
-    const BASE_PATH = '/games'; // Base path for your site
-
-    let allLinks = [];
-
-    fetch('links.json?t=' + new Date().getTime())
-        .then(response => response.json())
-        .then(data => {
-            allLinks = data.links.sort((a, b) => a.title.localeCompare(b.title));
-            const container = document.getElementById('links-container');
-            
-            allLinks.forEach(link => createLinkElement(link, container));
-            
-            document.getElementById('searchInput').addEventListener('input', filterLinks);
-        })
-        .catch(error => console.error('Error loading links:', error));
-
-    function createLinkElement(link, container) {
-        const linkElement = document.createElement('div');
-        linkElement.className = 'link-item';
-        
-        // Create anchor element
-        const anchor = document.createElement('a');
-        const fullUrl = BASE_PATH + link.url;
-        anchor.href = fullUrl;
-        anchor.textContent = link.title;
-        
-        // Create container for link and icon
-        const contentWrapper = document.createElement('div');
-        contentWrapper.style.display = 'flex';
-        contentWrapper.style.alignItems = 'center';
-        contentWrapper.appendChild(anchor);
-        
-        // Add to DOM immediately
-        linkElement.appendChild(contentWrapper);
-        container.appendChild(linkElement);
-
-        // Check link validity
-        checkLinkValidity(fullUrl).then(isValid => {
-            if (!isValid) {
-                anchor.style.color = '#ff4444';
-            }
-        });
-
-        // Check for icon
-        const iconUrl = `${fullUrl}icon.png`;
-        const img = new Image();
-        img.style.maxHeight = '24px';
-        img.style.marginLeft = '10px';
-        img.style.opacity = '0.8';
-        
-        img.onload = () => contentWrapper.appendChild(img);
-        img.src = iconUrl;
-
-        return linkElement;
-    }
-
-    async function checkLinkValidity(url) {
-        try {
-            const response = await fetch(url, { method: 'HEAD' });
-            return response.ok;
-        } catch (error) {
-            return false;
-        }
-    }
-
-    function filterLinks() {
-        const searchTerm = this.value.toLowerCase();
-        const container = document.getElementById('links-container');
-        container.innerHTML = '';
-        
-        allLinks.filter(link => 
-            link.title.toLowerCase().includes(searchTerm)
-        ).forEach(link => createLinkElement(link, container));
-    }
-</script>
     <script src="https://asgwrd.github.io/games/passcode.js?v420"></script>
 </body>
 </html>
