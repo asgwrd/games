@@ -143,6 +143,10 @@
         {
             "title": "Admin Puzzle",
             "url": "/g/admin/"
+        },
+        {
+            "title": "Big Ice Tower Tiny Square",
+            "url": "/g/bigicetower/"
         }
     ]
 }
